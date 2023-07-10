@@ -52,15 +52,14 @@ public class Cliente  {
         this.tlf = tlf;
     }
     
-    public void AgregarCuenta(Cuenta e){
-        misCuentas.add(e);
-    }
-    
     public void datosCuenta(String nCuuenta, double Monto,String tipo){
         Cuenta account = new Cuenta(nCuuenta,Monto,tipo);
         misCuentas.add(account);
     }
     
+    public ArrayList VerCuentas(){
+        return misCuentas;
+    }
     
     
     

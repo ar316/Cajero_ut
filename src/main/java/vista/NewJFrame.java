@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import logica.Banco;
 import logica.Cliente;
+import logica.Cuenta;
 
 
 /**
@@ -26,7 +27,7 @@ public class NewJFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     Banco bank = new Banco();
-    
+    ArrayList<Cuenta> Cuentas ;
     
     public NewJFrame() {
         initComponents();
@@ -66,15 +67,14 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtNCuenta = new javax.swing.JTextField();
         txtSaldo = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboTipo = new javax.swing.JComboBox<>();
         btnAgregarCliente = new javax.swing.JButton();
         labelCuenta = new javax.swing.JLabel();
         labelIcon = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaClientes = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        JlistCuentas = new javax.swing.JList<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -131,8 +131,8 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel2.add(txtNCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 120, -1));
         jPanel2.add(txtSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 120, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Ahorros", "Corriente" }));
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 120, -1));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Ahorros", "Corriente" }));
+        jPanel2.add(comboTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 120, -1));
 
         btnAgregarCliente.setText("Agregar Cuenta");
         btnAgregarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -153,13 +153,14 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 110, 140));
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuentas"));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, -1, -1));
 
-        jScrollPane2.setViewportView(JlistCuentas);
-
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 90, 90));
-
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 250, 170));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 250, 170));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -167,15 +168,18 @@ public class NewJFrame extends javax.swing.JFrame {
     private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarClienteActionPerformed
         String Ncuenta = txtNCuenta.getText();
         String monto = txtSaldo.getText();
-        double saldo = Double.parseDouble(monto);
-                
+        double saldo = Double.parseDouble(monto);   
         String Cliente = ListaClientes.getSelectedValue().toString();
-        bank.CrearCuenta(Cliente, Ncuenta, saldo,"ahorros");
+        String tipo = comboTipo.getSelectedItem().toString();
+        bank.CrearCuenta(Cliente, Ncuenta, saldo,tipo);
         System.out.print(Cliente);
         JOptionPane.showConfirmDialog(null, "Cuenta agregada Correctamente"); 
+        mostrarCuentas();
+        
 
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
+   
     private void btnAgregarCliente2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCliente2ActionPerformed
         // TODO add your handling code here
         capturarDatos();
@@ -186,10 +190,11 @@ public class NewJFrame extends javax.swing.JFrame {
     
     public void mostrarCuentas(){
        DefaultListModel modelo = new DefaultListModel();
-        ArrayList<Cliente> Clientes = bank.listarClientes();
-        for(Cliente e: Clientes){
-             modelo.addElement(e.getNombre());
-            JlistCuentas.setModel(modelo);
+      String Cliente = ListaClientes.getSelectedValue().toString();
+        Cuentas = bank.verCuentas(Cliente);
+        for(Cuenta e: Cuentas){
+             modelo.addElement(e.getTipoCuenta());
+           
             
         }
         
@@ -219,6 +224,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private void txtccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtccActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtccActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
     
     public void limpiarCliente(){
         txtNombre.setText(""); 
@@ -230,10 +239,10 @@ public class NewJFrame extends javax.swing.JFrame {
      */
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> JlistCuentas;
     private javax.swing.JList<String> ListaClientes;
     private javax.swing.JButton btnAgregarCliente;
     private javax.swing.JButton btnAgregarCliente2;
+    private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -245,7 +254,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelCuenta;
     private javax.swing.JLabel labelIcon;

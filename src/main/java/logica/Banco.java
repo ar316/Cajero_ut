@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +20,6 @@ public class Banco {
     public Banco( ){
         this.misClientes = new ArrayList<>();
         
-        
     }
     
     
@@ -34,12 +34,12 @@ public class Banco {
     }
     
     public void CrearCuenta(String nombreCliente, String nCuenta, double saldo, String tipo){
-       Cliente c = exite(nombreCliente);
-       
+       Cliente c = existe(nombreCliente);
+       c.datosCuenta(nCuenta, saldo, tipo);
     }
        
     //verifica si el cliente existe 
-    public Cliente exite(String nomb){
+    public Cliente existe(String nomb){
       for(Cliente c : misClientes){
         if(c.getNombre().equals(nomb)){
           return c;
@@ -47,7 +47,13 @@ public class Banco {
       }
       return null;
     }
-  
+    
+    public ArrayList verCuentas(String nombreCliente){
+        Cliente c = existe(nombreCliente);
+        ArrayList  cuentas = c.VerCuentas();
+        return cuentas;
+        
+    }
        
     
     
