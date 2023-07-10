@@ -16,6 +16,7 @@ public class Cliente  {
     private String cc;
     private String tlf;
     ArrayList<Cuenta> misCuentas;
+    
 
     
     public Cliente(String nombre, String cc, String tlf) {
@@ -24,6 +25,7 @@ public class Cliente  {
         this.cc = cc;
         this.tlf = tlf;
         misCuentas = new ArrayList<>();
+        
     }
 
     public String getNombre() {
@@ -49,6 +51,18 @@ public class Cliente  {
     public void setTlf(String tlf) {
         this.tlf = tlf;
     }
+    
+    public void AgregarCuenta(Cuenta e){
+        misCuentas.add(e);
+    }
+    
+    public void datosCuenta(String nCuuenta, double Monto,String tipo){
+        Cuenta account = new Cuenta(nCuuenta,Monto,tipo);
+        misCuentas.add(account);
+    }
+    
+    
+    
     
     
     
