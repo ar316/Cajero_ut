@@ -6,6 +6,7 @@ package logica;
 
 import java.nio.file.Files;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +49,7 @@ public class Banco {
       return null;
     }
     
+  
     public ArrayList verCuentas(String nombreCliente){
         Cliente c = existe(nombreCliente);
         ArrayList  cuentas = c.VerCuentas();
@@ -55,6 +57,57 @@ public class Banco {
     }
     
        
+   public int tiposDeMovimiento(){
+      int op = -1;
+      while(op != 0){
+        String opcion = JOptionPane.showInputDialog(null,"opciones:"+ "\n"
+        + "1.realizar deposito"+"\n"
+        + "2.realizar retiro"+"\n");
+        op = Integer.parseInt(opcion);
+    
+        switch(op){
+          case 1:
+            return 1;
+          case 2:
+            return 2; 
+          default:
+         }
+
+       }
+      return op;
+      }
+    
+    public void agregarMov(String nombre, String cuenta){
+        
+      ArrayList Cuentas;
+      Cuentas =  verCuentas(nombre);
+          Cuenta Actual = CuentaActual(cuenta,Cuentas);
+      Cliente movCliente = existe(nombre);
+      int op = tiposDeMovimiento();
+      if(movCliente!=null){
+        if(op == 1){
+          Actual.capturarMov(1);
+        }else if(op == 2){
+        
+          Actual.capturarMov(2);
+
+        }
+      }else{
+        JOptionPane.showMessageDialog(null, "Cliente no existe");
+      }
+    }
+    
+    public Cuenta CuentaActual(String tipoCuenta, ArrayList<Cuenta> c){
+        for(Cuenta e: c){
+            if(tipoCuenta.equals(e.getTipoCuenta())){
+                return e;
+            }
+            
+        }
+        return null;
+    }
     
     
+    
+   
 }

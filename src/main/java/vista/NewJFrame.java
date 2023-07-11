@@ -12,9 +12,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import logica.Banco;
 import logica.Cliente;
 import logica.Cuenta;
+import logica.Movimiento;
 
 
 /**
@@ -28,6 +30,7 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     Banco bank = new Banco();
     ArrayList<Cuenta> Cuentas ;
+    DefaultTableModel modelMovs = new DefaultTableModel();
     
     public NewJFrame() {
         initComponents();
@@ -36,6 +39,16 @@ public class NewJFrame extends javax.swing.JFrame {
         this.SetSize(labelIcon, "C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\Cajero_ut\\src\\main\\java\\imagenes\\logoBanco.png");
         this.SetSize(labelCliente, "C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\Cajero_ut\\src\\main\\java\\imagenes\\user.png");
         this.SetSize(labelCuenta,"C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\Cajero_ut\\src\\main\\java\\imagenes\\cuenta.png");
+        modelMovs.addColumn("Numero Cuenta");
+        modelMovs.addColumn("Tipo de cuenta");
+        modelMovs.addColumn("Monto");
+        modelMovs.addColumn("Movimietno");
+        listaMovimientos.setModel(modelMovs);
+        
+        
+        
+        
+    
     }
     
     public void SetSize(JLabel e, String root){
@@ -77,14 +90,16 @@ public class NewJFrame extends javax.swing.JFrame {
         btnVerInfo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         JlistCuentas = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        btnInfoCuentas = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         lblSaldo = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        listaMovimientos = new javax.swing.JTable();
+        btnRealizarMovimiento = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setBounds(514,793, 793, 514);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 18))); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -122,8 +137,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1.add(btnAgregarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, 40));
         jPanel1.add(labelCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 30, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 230, 210));
-
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cuenta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 18))); // NOI18N
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -138,7 +151,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel2.add(txtNCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 120, -1));
         jPanel2.add(txtSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 120, -1));
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Ahorros", "Corriente" }));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ahorros", "Corriente" }));
         jPanel2.add(comboTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 120, -1));
 
         btnAgregarCliente.setText("Agregar Cuenta");
@@ -149,9 +162,6 @@ public class NewJFrame extends javax.swing.JFrame {
         });
         jPanel2.add(btnAgregarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 140, 40));
         jPanel2.add(labelCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 30, 30));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 270, 210));
-        getContentPane().add(labelIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 240, 130));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de clientes"));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -174,37 +184,76 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 80, 110));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnInfoCuentas.setText("info");
+        btnInfoCuentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnInfoCuentasActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, -1, -1));
-
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 270, 180));
+        jPanel3.add(btnInfoCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel7.setText("Saldo Total:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 440, -1, -1));
 
         lblSaldo.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        getContentPane().add(lblSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 436, 140, 40));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        jScrollPane3.setViewportView(listaMovimientos);
+
+        btnRealizarMovimiento.setBackground(new java.awt.Color(102, 255, 102));
+        btnRealizarMovimiento.setText("Realizar Movimiento");
+        btnRealizarMovimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRealizarMovimientoActionPerformed(evt);
             }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        });
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, 510, 160));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRealizarMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(240, 240, 240)
+                        .addComponent(jLabel7)
+                        .addGap(4, 4, 4)
+                        .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(labelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRealizarMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -232,6 +281,7 @@ public class NewJFrame extends javax.swing.JFrame {
         capturarDatos();
         limpiarCliente();
         mostrarClientes();
+        limpiarTabla();
         
     }//GEN-LAST:event_btnAgregarCliente2ActionPerformed
     
@@ -281,16 +331,18 @@ public class NewJFrame extends javax.swing.JFrame {
     private void btnVerInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerInfoActionPerformed
         // TODO add your handling code here:
         mostrarCuentas();
-        
-        
-
-        
-        
+        verMovimientos();
+   
         
     }//GEN-LAST:event_btnVerInfoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnInfoCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoCuentasActionPerformed
         // TODO add your handling code here:
+        verCuentas();
+        verMovimientos();
+        
+    }//GEN-LAST:event_btnInfoCuentasActionPerformed
+    public void verCuentas(){
         String Cliente = ListaClientes.getSelectedValue().toString();
         Cuentas = bank.verCuentas(Cliente);
         String cuenta = JlistCuentas.getSelectedValue().toString();
@@ -302,26 +354,62 @@ public class NewJFrame extends javax.swing.JFrame {
                 lblSaldo.setText(monto);
             }
         }
+    }
+    private void btnRealizarMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarMovimientoActionPerformed
+        // TODO add your handling code here
+        String Cliente = ListaClientes.getSelectedValue().toString();
+        String cuenta = JlistCuentas.getSelectedValue().toString();
+        bank.agregarMov(Cliente, cuenta);
+        verCuentas();
+        verMovimientos ();
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnRealizarMovimientoActionPerformed
     
     public void limpiarCliente(){
         txtNombre.setText(""); 
        txtcc.setText("");
         txtTlf.setText("");
     }
+    
+    public void limpiarTabla(){
+         while(modelMovs.getRowCount()>0){
+            modelMovs.removeRow(0);
+            listaMovimientos.setModel(modelMovs);
+        }
+    }
     /**
      * @param args the command line arguments
      */
+    public void verMovimientos (){
+        String Cliente = ListaClientes.getSelectedValue().toString();
+        String cuenta = JlistCuentas.getSelectedValue().toString();
+        ArrayList<Cuenta> Cuentas= bank.verCuentas(Cliente);
+        Cuenta Actual = bank.CuentaActual(cuenta, Cuentas);
+        while(modelMovs.getRowCount()>0){
+            modelMovs.removeRow(0);
+        }
+         
+        for(Movimiento m: Actual.getMisMovimientos()){
+            Object Mov[] = new Object[4];
+            Mov[0] = Actual.getnCuenta();
+            Mov[1] = Actual.getTipoCuenta();
+            Mov[2] = m.getMonto();
+            Mov[3] = m.getTipoMovimiento();
+            modelMovs.addRow(Mov);  
+        }
+        listaMovimientos.setModel(modelMovs);
+        
+    }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> JlistCuentas;
     private javax.swing.JList<String> ListaClientes;
     private javax.swing.JButton btnAgregarCliente;
     private javax.swing.JButton btnAgregarCliente2;
+    private javax.swing.JButton btnInfoCuentas;
+    private javax.swing.JButton btnRealizarMovimiento;
     private javax.swing.JButton btnVerInfo;
     private javax.swing.JComboBox<String> comboTipo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -335,11 +423,11 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelCuenta;
     private javax.swing.JLabel labelIcon;
     private javax.swing.JLabel lblSaldo;
+    private javax.swing.JTable listaMovimientos;
     private javax.swing.JTextField txtNCuenta;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtSaldo;
