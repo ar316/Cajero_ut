@@ -51,9 +51,9 @@ public class Banco {
     public ArrayList verCuentas(String nombreCliente){
         Cliente c = existe(nombreCliente);
         ArrayList  cuentas = c.VerCuentas();
-        return cuentas;
-        
+        return cuentas; 
     }
+    
        
     
     

@@ -74,8 +74,14 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaClientes = new javax.swing.JList<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        btnVerInfo = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        JlistCuentas = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        lblSaldo = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -152,19 +158,53 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(ListaClientes);
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 110, 90));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 130, 110));
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        btnVerInfo.setText("ver Info Cuentas");
+        btnVerInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                btnVerInfoActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, -1, -1));
+        jPanel3.add(btnVerInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuentas"));
+
+        jScrollPane2.setViewportView(JlistCuentas);
+
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 80, 110));
 
         jButton1.setText("jButton1");
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, -1, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 250, 170));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 270, 180));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        jLabel7.setText("Saldo Total:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 440, -1, -1));
+
+        lblSaldo.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        getContentPane().add(lblSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 436, 140, 40));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, 510, 160));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -178,11 +218,14 @@ public class NewJFrame extends javax.swing.JFrame {
         bank.CrearCuenta(Cliente, Ncuenta, saldo,tipo);
         System.out.print(Cliente);
         JOptionPane.showConfirmDialog(null, "Cuenta agregada Correctamente"); 
-        mostrarCuentas();
-        
+        vaciarCuentas();
 
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
-
+    public void vaciarCuentas(){
+         DefaultListModel modelo = new DefaultListModel();
+        modelo.addElement("");
+        JlistCuentas.setModel(modelo);
+    }
    
     private void btnAgregarCliente2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCliente2ActionPerformed
         // TODO add your handling code here
@@ -193,14 +236,20 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarCliente2ActionPerformed
     
     public void mostrarCuentas(){
-       DefaultListModel modelo = new DefaultListModel();
+      DefaultListModel modelo = new DefaultListModel();
       String Cliente = ListaClientes.getSelectedValue().toString();
         Cuentas = bank.verCuentas(Cliente);
-        for(Cuenta e: Cuentas){
+        if(!Cuentas.isEmpty()){
+            for(Cuenta e: Cuentas){
              modelo.addElement(e.getTipoCuenta());
-           
+             JlistCuentas.setModel(modelo);
             
+            }
+        }else{
+            modelo.addElement("Sin cuentas");
+            JlistCuentas.setModel(modelo);
         }
+        
         
     }
     public void capturarDatos(){
@@ -229,9 +278,32 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtccActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void btnVerInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerInfoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        mostrarCuentas();
+        
+        
+
+        
+        
+        
+    }//GEN-LAST:event_btnVerInfoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String Cliente = ListaClientes.getSelectedValue().toString();
+        Cuentas = bank.verCuentas(Cliente);
+        String cuenta = JlistCuentas.getSelectedValue().toString();
+        System.out.println(cuenta);
+        for(Cuenta e: Cuentas){
+            if(cuenta.equals(e.getTipoCuenta())){
+                String monto = String.valueOf(e.getBalance());
+                System.out.println(cuenta);
+                lblSaldo.setText(monto);
+            }
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     public void limpiarCliente(){
         txtNombre.setText(""); 
@@ -243,25 +315,31 @@ public class NewJFrame extends javax.swing.JFrame {
      */
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> JlistCuentas;
     private javax.swing.JList<String> ListaClientes;
     private javax.swing.JButton btnAgregarCliente;
     private javax.swing.JButton btnAgregarCliente2;
+    private javax.swing.JButton btnVerInfo;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelCuenta;
     private javax.swing.JLabel labelIcon;
+    private javax.swing.JLabel lblSaldo;
     private javax.swing.JTextField txtNCuenta;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtSaldo;
