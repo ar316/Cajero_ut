@@ -160,7 +160,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 btnAgregarClienteActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAgregarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 140, 40));
+        jPanel2.add(btnAgregarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 140, 40));
         jPanel2.add(labelCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 30, 30));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de clientes"));
@@ -282,6 +282,7 @@ public class NewJFrame extends javax.swing.JFrame {
         limpiarCliente();
         mostrarClientes();
         limpiarTabla();
+        lblSaldo.setText("");
         
     }//GEN-LAST:event_btnAgregarCliente2ActionPerformed
     
@@ -330,7 +331,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void btnVerInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerInfoActionPerformed
         // TODO add your handling code here:
         mostrarCuentas();
-        verMovimientos();
+        
    
         
     }//GEN-LAST:event_btnVerInfoActionPerformed
@@ -338,8 +339,12 @@ public class NewJFrame extends javax.swing.JFrame {
     private void btnInfoCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoCuentasActionPerformed
         // TODO add your handling code here:
         verCuentas();
-        verMovimientos();
-        
+        try{
+            verMovimientos();
+        }catch(Exception  e){
+            System.out.println("no hay movimientos");
+            
+        }   
     }//GEN-LAST:event_btnInfoCuentasActionPerformed
     public void verCuentas(){
         String Cliente = ListaClientes.getSelectedValue().toString();
@@ -351,6 +356,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 String monto = String.valueOf(e.getBalance());
                 System.out.println(cuenta);
                 lblSaldo.setText(monto);
+               
             }
         }
     }
