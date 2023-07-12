@@ -42,7 +42,7 @@ public class NewJFrame extends javax.swing.JFrame {
         modelMovs.addColumn("Numero Cuenta");
         modelMovs.addColumn("Tipo de cuenta");
         modelMovs.addColumn("Monto");
-        modelMovs.addColumn("Movimietno");
+        modelMovs.addColumn("Movimiento");
         listaMovimientos.setModel(modelMovs);
         
         
@@ -299,8 +299,7 @@ public class NewJFrame extends javax.swing.JFrame {
             modelo.addElement("Sin cuentas");
             JlistCuentas.setModel(modelo);
         }
-        
-        
+     
     }
     public void capturarDatos(){
         String nombre = txtNombre.getText();
