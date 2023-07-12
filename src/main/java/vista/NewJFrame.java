@@ -346,19 +346,25 @@ public class NewJFrame extends javax.swing.JFrame {
             
         }   
     }//GEN-LAST:event_btnInfoCuentasActionPerformed
+    //ver el sado en el label 
     public void verCuentas(){
         String Cliente = ListaClientes.getSelectedValue().toString();
         Cuentas = bank.verCuentas(Cliente);
+        if(!Cuentas.isEmpty()){
         String cuenta = JlistCuentas.getSelectedValue().toString();
         System.out.println(cuenta);
-        for(Cuenta e: Cuentas){
-            if(cuenta.equals(e.getTipoCuenta())){
+            for(Cuenta e: Cuentas){
+                if(cuenta.equals(e.getTipoCuenta())){
                 String monto = String.valueOf(e.getBalance());
                 System.out.println(cuenta);
                 lblSaldo.setText(monto);
                
+                 }
             }
+        }else{
+            System.out.println("no hay movimientos");
         }
+        
     }
     private void btnRealizarMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarMovimientoActionPerformed
         // TODO add your handling code here
@@ -388,11 +394,12 @@ public class NewJFrame extends javax.swing.JFrame {
     public void verMovimientos (){
         String Cliente = ListaClientes.getSelectedValue().toString();
         String cuenta = JlistCuentas.getSelectedValue().toString();
-        ArrayList<Cuenta> Cuentas= bank.verCuentas(Cliente);
-        Cuenta Actual = bank.CuentaActual(cuenta, Cuentas);
-        while(modelMovs.getRowCount()>0){
+        if(cuenta != null){
+            ArrayList<Cuenta> Cuentas= bank.verCuentas(Cliente);
+            Cuenta Actual = bank.CuentaActual(cuenta, Cuentas);
+            while(modelMovs.getRowCount()>0){
             modelMovs.removeRow(0);
-        }
+            }
          
         for(Movimiento m: Actual.getMisMovimientos()){
             Object Mov[] = new Object[4];
@@ -403,6 +410,10 @@ public class NewJFrame extends javax.swing.JFrame {
             modelMovs.addRow(Mov);  
         }
         listaMovimientos.setModel(modelMovs);
+        }else{
+            System.out.println("no hay movimietnos");
+        }
+        
         
     }
   

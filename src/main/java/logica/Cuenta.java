@@ -63,22 +63,39 @@ public class Cuenta {
         else if(i == 2){
             String monto =  JOptionPane.showInputDialog(null,  "digite la cantidad a retirar");
             double amount =Double.parseDouble(monto); 
-            Movimiento mov = new Movimiento("retiro", amount);
-            misMovimientos.add(mov);
-            retiro(amount);
-            JOptionPane.showConfirmDialog(null, "retiro realizado correctamente", "retiro", i, i, null);
+            if(retiro(amount)){
+                Movimiento mov = new Movimiento("retiro", amount);
+                misMovimientos.add(mov);
+                JOptionPane.showConfirmDialog(null, "retiro realizado correctamente", "retiro", i, i, null);
+            }else{
+                capturarMov(2);
+            }
+            
         }  
         
     }
      
 
-    public void deposito(double amount) {
-        balance += amount;
+    public Boolean deposito(double amount) {
+        if(amount > 0){
+            balance += amount;
+            return true;
+        }else{
+            return false;
+        }    
     } 
-    public void retiro(double amount) {
-        balance -= amount;
+    public boolean retiro(double amount) {
+        if(this.balance >= amount){
+            balance -= amount;
+            return true;
+        }else{
+            JOptionPane.showConfirmDialog(null, "Fondos Insuficientes");
+            return false;
+        }
+       
     }
 
+   
     public ArrayList<Movimiento> getMisMovimientos() {
         return misMovimientos;
     }
